@@ -1,6 +1,6 @@
 # Easy Audio Recorder
 
-> Two stylish design
+> Two stylish design and
 > Easy to use record functions
 
 ## Why this project exists
@@ -12,7 +12,7 @@
 ### BottomSheetFragment Usage
 
 ```kotlin
-    class BottomSheetUsageActivity : AppCompatActivity(), AudioRecordListener {
+class BottomSheetUsageActivity : AppCompatActivity(), AudioRecordListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +30,42 @@
     override fun onRecordFailed(errorMessage: String?) {
         TODO("Not yet implemented")
     }
+}
+
+```
+
+### Normal Usage
+
+```kotlin
+class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
+
+    lateinit var recorder: Recorder
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_worker_usage)
+    }
+
+    fun initRecorder() {
+        recorder = Recorder(this)
+    }
+
+    fun startRecord() {
+        recorder.startRecord()
+    }
+
+    fun stopRecord() {
+        recorder.stopRecording()
+    }
+
+    override fun onAudioReady(audioUri: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRecordFailed(errorMessage: String?) {
+        TODO("Not yet implemented")
+    }
+
 }
 ```
 
