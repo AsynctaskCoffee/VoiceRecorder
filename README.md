@@ -101,15 +101,20 @@ fun playRecord(view: View) {
 ###### Add it in your root build.gradle at the end of repositories
 
 ```groovy
-repositories {
-        maven { url 'https://jitpack.io' }
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
 }
 ```
 
 ###### Add the dependency
 
 ```groovy
-implementation 'com.github.AsynctaskCoffee:VoiceRecorder:1.0'
+dependencies {
+    implementation 'com.github.AsynctaskCoffee:VoiceRecorder:0.1'
+}
 ```
 
 ## License
