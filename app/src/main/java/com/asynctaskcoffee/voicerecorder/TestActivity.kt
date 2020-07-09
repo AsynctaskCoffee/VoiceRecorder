@@ -62,7 +62,7 @@ class TestActivity : AppCompatActivity(), AudioRecordListener, MediaPlayListener
     }
 
     fun playRecord(view: View) {
-        if (player.player.isPlaying)
+        if (player.player!!.isPlaying)
             player.stopPlaying()
         else player.startPlaying()
     }
