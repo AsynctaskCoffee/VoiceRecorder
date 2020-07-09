@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="record_audio">Start Record</string>
+    <string name="hold_for_record">Hold for record</string>
+    <string name="release_for_end">Release for end record</string>
+    <string name="listen_record">You can listen record</string>
+    <string name="stop_listen_record">Stop Listen</string>
+    <string name="stop_record">Stop Record</string>
+    <string name="send_record">Send Record</string>
+</resources>

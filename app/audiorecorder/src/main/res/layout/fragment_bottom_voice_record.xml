@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_gravity="bottom"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/audio_action_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_regular"
+            android:gravity="center_horizontal"
+            android:letterSpacing="0.04"
+            android:text="@string/hold_for_record"
+            android:textColor="#7a869a"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/btn_record"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_start_record" />
+
+        <TextView
+            android:id="@+id/txt_record_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sfprodisplay_bold"
+            android:letterSpacing="-0.02"
+            android:text="@string/record_audio"
+            android:textColor="@color/reddish_pink"
+            android:textSize="15sp" />
+
+        <Chronometer
+            android:id="@+id/chr_record_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="20sp"
+            android:gravity="center_horizontal"
+            android:letterSpacing="0.04"
+            android:textColor="#7a869a"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/audio_send"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_send_circle"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/audio_delete"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="5dp"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_audio_delete"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/close_record_panel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="end"
+        android:text="x"
+        android:textColor="#7a869a"
+        android:textSize="20sp" />
+
+</FrameLayout>
