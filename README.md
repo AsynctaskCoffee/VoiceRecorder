@@ -5,12 +5,12 @@
 
 ## Why this project exists
 
-> In applications that include chat, it is often desired to record audio in m4a-mpeg format to be compatible with IOS. To avoid the confusion of algorithms on the chat screen you can use this library to add voice recording feature to your application with a few lines.
+> In applications that include chat, it is often desired to record audio in **m4a-mpeg** format to be compatible with **IOS**. To avoid the confusion of algorithms on the chat screen you can use this library to add voice recording feature to your application with a few lines.
 
 ## Features and Usage
 
 ### BottomSheetFragment Usage
-
+[**here  :)**](https://github.com/AsynctaskCoffee/VoiceRecorder/blob/master/app/src/main/java/com/asynctaskcoffee/voicerecorder/BottomSheetUsageActivity.kt)
 ```kotlin
 class BottomSheetUsageActivity : AppCompatActivity(), AudioRecordListener {
 
@@ -35,7 +35,7 @@ class BottomSheetUsageActivity : AppCompatActivity(), AudioRecordListener {
 ```
 
 ### Normal Usage
-
+[**here  :)**](https://github.com/AsynctaskCoffee/VoiceRecorder/blob/master/app/src/main/java/com/asynctaskcoffee/voicerecorder/WorkerUsageActivity.kt)
 ```kotlin
 class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
 
@@ -102,10 +102,9 @@ fun playRecord(view: View) {
 
 ```groovy
 allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
