@@ -11,8 +11,8 @@ public class Recorder {
 
     private MediaRecorder recorder = null;
     private AudioRecordListener audioRecordListener = null;
-    private static String fileName = null;
-    private static String localPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+    private String fileName = null;
+    private String localPath = Environment.getExternalStorageDirectory().getAbsolutePath();
     public boolean recording = false;
 
     public boolean isRecording() {
@@ -27,8 +27,8 @@ public class Recorder {
         this.audioRecordListener = audioRecordListener;
     }
 
-    public static void setFileName(String fileName) {
-        Recorder.fileName = fileName;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void startRecord() {

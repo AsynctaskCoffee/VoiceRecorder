@@ -4,9 +4,11 @@ import android.media.MediaPlayer;
 
 public class Player {
     private MediaPlayer player = null;
+    private MediaPlayListener mediaPlayListener;
 
-    public Player() {
+    public Player(MediaPlayListener mediaPlayListener) {
         player = new MediaPlayer();
+        this.mediaPlayListener = mediaPlayListener;
     }
 
     public MediaPlayer getPlayer() {
@@ -41,12 +43,17 @@ public class Player {
     public void startPlaying() {
         if (player != null)
             player.start();
+        if (mediaPlayListener != null) {
+            mediaPlayListener.onStartMedia();
+        }
     }
 
     public void stopPlaying() {
         if (player != null && player.isPlaying())
             player.pause();
+        if (mediaPlayListener != null) {
+            mediaPlayListener.onStopMedia();
+        }
     }
-
 
 }

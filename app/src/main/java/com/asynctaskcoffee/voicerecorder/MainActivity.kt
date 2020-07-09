@@ -12,16 +12,13 @@ import com.asynctaskcoffee.audiorecorder.worker.AudioRecordListener
 
 class MainActivity : AppCompatActivity(), AudioRecordListener {
 
-    lateinit var voiceSenderDialog: VoiceSenderDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        voiceSenderDialog = VoiceSenderDialog(this)
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            if (!voiceSenderDialog.isAdded) {
-                voiceSenderDialog.show(supportFragmentManager, "VOICE")
-            }
+            VoiceSenderDialog(this).show(supportFragmentManager, "VOICE")
         }
     }
 

@@ -3,7 +3,9 @@ package com.asynctaskcoffee.audiorecorder.uikit;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,11 +23,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.asynctaskcoffee.audiorecorder.R;
 import com.asynctaskcoffee.audiorecorder.worker.AudioRecordListener;
+import com.asynctaskcoffee.audiorecorder.worker.MediaPlayListener;
 import com.asynctaskcoffee.audiorecorder.worker.Player;
 import com.asynctaskcoffee.audiorecorder.worker.Recorder;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class VoiceSenderDialog extends BottomSheetDialogFragment implements View.OnClickListener, View.OnTouchListener, AudioRecordListener {
+public class VoiceSenderDialog extends BottomSheetDialogFragment implements View.OnClickListener, View.OnTouchListener, AudioRecordListener, MediaPlayListener {
 
     private AudioRecordListener audioRecordListener;
     private String fileName = null;
@@ -79,7 +82,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     @SuppressLint("ClickableViewAccessibility")
     void setListeners() {
         recorder = new Recorder(this);
-        player = new Player();
+        player = new Player(this);
 
         audioDelete.setOnClickListener(this);
         audioSend.setOnClickListener(this);
@@ -90,15 +93,12 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     public void onClick(View v) {
         if (recordButton.getId() == (v.getId())) {
             onPlay(mStartPlaying);
-            if (mStartPlaying) {
-                recordInformation.setText(getString(R.string.stop_listen_record));
-            } else {
-                recordInformation.setText(getString(R.string.listen_record));
-            }
             mStartPlaying = !mStartPlaying;
         } else if (audioDelete.getId() == (v.getId())) {
             if (audioDelete.getVisibility() == View.VISIBLE) {
                 resetFragment();
+                recordDuration.setBase(SystemClock.elapsedRealtime());
+                recordDuration.stop();
             }
         } else if (audioSend.getId() == (v.getId())) {
             if (audioSend.getVisibility() == View.VISIBLE && !TextUtils.isEmpty(fileName)) {
@@ -137,6 +137,14 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         audioActionInfo.setText(getString(R.string.release_for_end));
         recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_stop_record));
         recorder.startRecord();
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        resetFragment();
+        recordDuration.setBase(SystemClock.elapsedRealtime());
+        recordDuration.stop();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -213,11 +221,6 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         return super.show(transaction, tag);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        resetWorkers();
-    }
 
     private void resetWorkers() {
         if (recorder != null) {
@@ -229,7 +232,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         if (player != null) {
             player.reset();
             player = null;
-            player = new Player();
+            player = new Player(this);
         }
     }
 
@@ -261,6 +264,16 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
             setListeners();
         }
         if (!permissionToRecordAccepted) dismiss();
+    }
 
+
+    @Override
+    public void onStartMedia() {
+        recordInformation.setText(getString(R.string.stop_listen_record));
+    }
+
+    @Override
+    public void onStopMedia() {
+        recordInformation.setText(getString(R.string.listen_record));
     }
 }
