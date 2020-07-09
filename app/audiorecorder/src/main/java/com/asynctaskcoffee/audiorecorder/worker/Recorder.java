@@ -66,15 +66,14 @@ public class Recorder {
     public void stopRecording() {
         try {
             Thread.sleep(150);
-        } catch (InterruptedException e) {
+            recorder.stop();
+            recorder.release();
+            recorder = null;
+            reflectRecord(localPath);
+        } catch (Exception e) {
             e.printStackTrace();
             reflectError(e.toString());
-            return;
         }
-        recorder.stop();
-        recorder.release();
-        recorder = null;
-        reflectRecord(localPath);
     }
 
     void reflectError(String error) {

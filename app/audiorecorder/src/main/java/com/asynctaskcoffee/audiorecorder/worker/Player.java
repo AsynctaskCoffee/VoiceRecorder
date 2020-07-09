@@ -34,6 +34,13 @@ public class Player {
         try {
             player.setDataSource(audioUri);
             player.prepare();
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if (mediaPlayListener != null)
+                        mediaPlayListener.onStopMedia();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

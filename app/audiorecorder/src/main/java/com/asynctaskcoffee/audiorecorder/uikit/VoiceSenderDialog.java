@@ -93,7 +93,6 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     public void onClick(View v) {
         if (recordButton.getId() == (v.getId())) {
             onPlay(mStartPlaying);
-            mStartPlaying = !mStartPlaying;
         } else if (audioDelete.getId() == (v.getId())) {
             if (audioDelete.getVisibility() == View.VISIBLE) {
                 resetFragment();
@@ -270,10 +269,14 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     @Override
     public void onStartMedia() {
         recordInformation.setText(getString(R.string.stop_listen_record));
+        recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_stop_play));
+        mStartPlaying = !mStartPlaying;
     }
 
     @Override
     public void onStopMedia() {
         recordInformation.setText(getString(R.string.listen_record));
+        recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_play_record));
+        mStartPlaying = !mStartPlaying;
     }
 }
