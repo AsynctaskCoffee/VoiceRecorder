@@ -69,36 +69,63 @@ class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
 }
 ```
 
+### Extras
+
+##### Change Record Path
+
+```kotlin
+fun setFileName(fileName: String?) {
+   this.fileName = fileName
+}
+```
+
+##### Easy MPlayer
+
+```kotlin
+lateinit var player: Player
+
+override fun onAudioReady(audioUri: String?) {
+    player = Player(this)
+    player.injectMedia(audioUri)
+}
+
+fun playRecord(view: View) {
+    if (player.player!!.isPlaying)
+        player.stopPlaying()
+    else player.startPlaying()
+}
+```
+
 ## Implementation
 
 ###### Add it in your root build.gradle at the end of repositories
 
 ```groovy
-    repositories {
+repositories {
         maven { url 'https://jitpack.io' }
-    }
+}
 ```
 
 ###### Add the dependency
 
 ```groovy
-    implementation 'com.github.AsynctaskCoffee:VoiceRecorder:1.0'
+implementation 'com.github.AsynctaskCoffee:VoiceRecorder:1.0'
 ```
 
 ## License
 
 ```
-   Copyright 2020 Egemen ÖZOGUL
+Copyright 2020 Egemen ÖZOGUL
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```

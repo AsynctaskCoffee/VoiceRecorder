@@ -79,6 +79,10 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         audioActionInfo = v.findViewById(R.id.audio_action_info);
     }
 
+    public void setFileName(String fileName) {
+        if (recorder != null) recorder.setFileName(fileName);
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     void setListeners() {
         recorder = new Recorder(this);
