@@ -10,7 +10,7 @@
 ## Features and Usage
 
 
-<img src="previews/1.jpeg" width="250"> <img src="previews/2.jpeg width="250">  <img src="previews/3.jpeg" width="250">
+<img src="previews/1.jpeg" width="250"> <img src="previews/2.jpeg" width="250">  <img src="previews/3.jpeg" width="250">
 
 
 ### BottomSheetFragment Usage
