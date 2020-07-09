@@ -83,7 +83,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     void setListeners() {
         recorder = new Recorder(this);
         player = new Player(this);
-
+        closeRecordPanel.setOnClickListener(this);
         audioDelete.setOnClickListener(this);
         audioSend.setOnClickListener(this);
         recordButton.setOnTouchListener(this);
@@ -104,7 +104,8 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
                 reflectRecord(fileName);
                 dismiss();
             }
-        }
+        } else if (closeRecordPanel.getId() == v.getId())
+            dismiss();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -115,6 +116,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
                 onRecord(true);
                 closeRecordPanel.setVisibility(View.INVISIBLE);
                 closeRecordPanel.setEnabled(false);
+                recordDuration.setBase(SystemClock.elapsedRealtime());
                 recordDuration.stop();
                 recordDuration.start();
                 recordInformation.setText(getString(R.string.stop_record));
