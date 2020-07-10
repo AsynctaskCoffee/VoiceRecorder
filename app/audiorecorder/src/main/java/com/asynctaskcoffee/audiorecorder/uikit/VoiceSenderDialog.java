@@ -36,7 +36,8 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     private boolean permissionToRecordAccepted = false;
     private boolean mStartRecording = true;
     private boolean mStartPlaying = true;
-
+    private LangObj langObj = new LangObj();
+    private IconsObj iconsObj = new IconsObj();
     private ImageView recordButton;
     private Chronometer recordDuration;
     private TextView recordInformation;
@@ -77,6 +78,13 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         audioDelete = v.findViewById(R.id.audio_delete);
         audioSend = v.findViewById(R.id.audio_send);
         audioActionInfo = v.findViewById(R.id.audio_action_info);
+
+        audioActionInfo.setText(langObj.hold_for_record_string);
+        recordInformation.setText(langObj.record_audio_string);
+
+        recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_start_record));
+        audioDelete.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_audio_delete));
+        audioSend.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_send_circle));
     }
 
     public void setFileName(String fileName) {
@@ -123,7 +131,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
                 recordDuration.setBase(SystemClock.elapsedRealtime());
                 recordDuration.stop();
                 recordDuration.start();
-                recordInformation.setText(getString(R.string.stop_record));
+                recordInformation.setText(langObj.stop_record_string);
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_BUTTON_RELEASE:
@@ -131,7 +139,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
                 closeRecordPanel.setVisibility(View.VISIBLE);
                 closeRecordPanel.setEnabled(true);
                 recordDuration.stop();
-                recordInformation.setText(getString(R.string.send_record));
+                recordInformation.setText(langObj.send_record_string);
                 return true;
         }
         return false;
@@ -139,8 +147,8 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
 
 
     private void startRecording() {
-        audioActionInfo.setText(getString(R.string.release_for_end));
-        recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_stop_record));
+        audioActionInfo.setText(langObj.release_for_end_string);
+        recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_stop_record));
         recorder.startRecord();
     }
 
@@ -156,11 +164,11 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     private void stopRecording() {
         audioDelete.setVisibility(View.VISIBLE);
         audioSend.setVisibility(View.VISIBLE);
-        audioActionInfo.setText(getString(R.string.listen_record));
+        audioActionInfo.setText(langObj.listen_record_string);
         recordDuration.stop();
         recordButton.setOnTouchListener(null);
         recordButton.setOnClickListener(this);
-        recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_play_record));
+        recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_play_record));
         recorder.stopRecording();
     }
 
@@ -203,9 +211,9 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         recordButton.setOnTouchListener(this);
         audioDelete.setVisibility(View.INVISIBLE);
         audioSend.setVisibility(View.INVISIBLE);
-        recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_start_record));
-        recordInformation.setText(getString(R.string.record_audio));
-        audioActionInfo.setText(getString(R.string.hold_for_record));
+        recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_start_record));
+        recordInformation.setText(langObj.record_audio_string);
+        audioActionInfo.setText(langObj.hold_for_record_string);
         recordDuration.setText("00:00");
     }
 
@@ -245,6 +253,22 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         this.audioRecordListener = audioRecordListener;
     }
 
+    public VoiceSenderDialog(AudioRecordListener audioRecordListener, LangObj langObj) {
+        this.langObj = langObj;
+        this.audioRecordListener = audioRecordListener;
+    }
+
+    public VoiceSenderDialog(AudioRecordListener audioRecordListener, IconsObj iconsObj) {
+        this.iconsObj = iconsObj;
+        this.audioRecordListener = audioRecordListener;
+    }
+
+    public VoiceSenderDialog(AudioRecordListener audioRecordListener, LangObj langObj, IconsObj iconsObj) {
+        this.langObj = langObj;
+        this.iconsObj = iconsObj;
+        this.audioRecordListener = audioRecordListener;
+    }
+
     void reflectError(String error) {
         if (audioRecordListener != null)
             audioRecordListener.onRecordFailed(error);
@@ -274,15 +298,15 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
 
     @Override
     public void onStartMedia() {
-        recordInformation.setText(getString(R.string.stop_listen_record));
-        recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_stop_play));
+        recordInformation.setText(langObj.stop_listen_record_string);
+        recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_stop_play));
         mStartPlaying = !mStartPlaying;
     }
 
     @Override
     public void onStopMedia() {
-        recordInformation.setText(getString(R.string.listen_record));
-        recordButton.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_play_record));
+        recordInformation.setText(langObj.listen_record_string);
+        recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_play_record));
         mStartPlaying = !mStartPlaying;
     }
 }
