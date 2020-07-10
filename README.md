@@ -100,6 +100,69 @@ fun playRecord(view: View) {
 }
 ```
 
+##### Customize Dialog Language with LangObj
+
+```java
+public LangObj() {
+}
+
+String record_audio_string = "Start Record";
+String hold_for_record_string = "Hold for record";
+String release_for_end_string = "Release for end record";
+String listen_record_string = "You can listen record";
+String stop_listen_record_string = "Stop Listen";
+String stop_record_string = "Stop Record";
+String send_record_string = "Send Record";
+
+public LangObj(String record_audio_string, String hold_for_record_string, String release_for_end_string, String listen_record_string, String stop_listen_record_string, String stop_record_string, String send_record_string) {
+    this.record_audio_string = record_audio_string;
+    this.hold_for_record_string = hold_for_record_string;
+    this.release_for_end_string = release_for_end_string;
+    this.listen_record_string = listen_record_string;
+    this.stop_listen_record_string = stop_listen_record_string;
+    this.stop_record_string = stop_record_string;
+    this.send_record_string = send_record_string;
+}
+```
+
+```java
+public VoiceSenderDialog(AudioRecordListener audioRecordListener, LangObj langObj) {
+    this.langObj = langObj;
+    this.audioRecordListener = audioRecordListener;
+}
+```
+
+##### Customize Dialog Icons with LangObj
+
+```java
+public IconsObj() {
+}
+
+int ic_start_record = R.drawable.ic_start_record;
+int ic_stop_play = R.drawable.ic_stop_play;
+int ic_play_record = R.drawable.ic_play_record;
+int ic_audio_delete = R.drawable.ic_audio_delete;
+int ic_send_circle = R.drawable.ic_send_circle;
+int ic_stop_record = R.drawable.ic_stop_record;
+
+public IconsObj(int ic_start_record, int ic_stop_play, int ic_play_record, int ic_audio_delete, int ic_send_circle, int ic_stop_record) {
+    this.ic_start_record = ic_start_record;
+    this.ic_stop_play = ic_stop_play;
+    this.ic_play_record = ic_play_record;
+    this.ic_audio_delete = ic_audio_delete;
+    this.ic_send_circle = ic_send_circle;
+    this.ic_stop_record = ic_stop_record;
+}
+```
+
+```java
+public VoiceSenderDialog(AudioRecordListener audioRecordListener, IconsObj iconsObj) {
+    this.iconsObj = iconsObj;
+    this.audioRecordListener = audioRecordListener;
+}
+```
+
+
 ## Implementation
 
 ###### Add it in your root build.gradle at the end of repositories
