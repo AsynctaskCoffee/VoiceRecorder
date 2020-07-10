@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WorkerUsageActivity"></activity>
+        <activity android:name=".TestActivity"/>
+        <activity android:name=".WorkerUsageActivity" />
         <activity android:name=".BottomSheetUsageActivity" />
         <activity
-            android:name=".TestActivity"
+            android:name=".ButtonUsageActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
