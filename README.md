@@ -1,5 +1,9 @@
 # Easy Audio Recorder
 
+
+<img src="previews/preview_gif_1.gif" width="250"> <img src="previews/preview_gif_2.gif" width="250">  <img src="previews/preview_gif_3.gif" width="250">
+
+
 > Two stylish design and
 > Easy to use record functions
 
