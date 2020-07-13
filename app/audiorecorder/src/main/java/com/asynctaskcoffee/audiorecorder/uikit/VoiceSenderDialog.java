@@ -31,6 +31,9 @@ import com.asynctaskcoffee.audiorecorder.worker.Player;
 import com.asynctaskcoffee.audiorecorder.worker.Recorder;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.io.File;
+import java.util.Objects;
+
 public class VoiceSenderDialog extends BottomSheetDialogFragment implements View.OnClickListener, View.OnTouchListener, AudioRecordListener, MediaPlayListener {
 
     private AudioRecordListener audioRecordListener;
@@ -105,12 +108,28 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         recordButton.setOnTouchListener(this);
     }
 
+    public void deleteCurrentFile() {
+        try {
+            File file = new File(fileName);
+            file.delete();
+            if (file.exists()) {
+                file.getCanonicalFile().delete();
+                if (file.exists()) {
+                    Objects.requireNonNull(getActivity()).deleteFile(file.getName());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (recordButton.getId() == (v.getId())) {
             onPlay(mStartPlaying);
         } else if (audioDelete.getId() == (v.getId())) {
             if (audioDelete.getVisibility() == View.VISIBLE) {
+                deleteCurrentFile();
                 resetFragment();
                 recordDuration.setBase(SystemClock.elapsedRealtime());
                 recordDuration.stop();
@@ -150,7 +169,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     }
 
 
-    private void beep(){
+    private void beep() {
         if (beepEnabled)
             new ToneGenerator(AudioManager.STREAM_MUSIC, 70).startTone(ToneGenerator.TONE_CDMA_PIP, 150);
     }
@@ -164,7 +183,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
             public void run() {
                 recorder.startRecord();
             }
-        },50);
+        }, 50);
     }
 
     @Override
