@@ -3,8 +3,11 @@ package com.asynctaskcoffee.audiorecorder.uikit;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -33,6 +36,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     private AudioRecordListener audioRecordListener;
     private String fileName = null;
 
+    private boolean beepEnabled = false;
     private boolean permissionToRecordAccepted = false;
     private boolean mStartRecording = true;
     private boolean mStartPlaying = true;
@@ -146,10 +150,21 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     }
 
 
+    private void beep(){
+        if (beepEnabled)
+            new ToneGenerator(AudioManager.STREAM_MUSIC, 70).startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+    }
+
     private void startRecording() {
         audioActionInfo.setText(langObj.release_for_end_string);
         recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_stop_record));
-        recorder.startRecord();
+        beep();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recorder.startRecord();
+            }
+        },50);
     }
 
     @Override
@@ -277,6 +292,10 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     void reflectRecord(String uri) {
         if (audioRecordListener != null)
             audioRecordListener.onAudioReady(uri);
+    }
+
+    public void setBeepEnabled(boolean beepEnabled) {
+        this.beepEnabled = beepEnabled;
     }
 
     private boolean letsCheckPermissions() {

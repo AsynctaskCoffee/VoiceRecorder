@@ -16,7 +16,7 @@
         android:fontFamily="@font/sfprodisplay_bold"
         android:gravity="center_vertical"
         android:paddingStart="15dp"
-        android:text="Voice Recorder Lİbrary"
+        android:text="Voice Recorder Library"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
@@ -128,6 +128,7 @@
     </androidx.cardview.widget.CardView>
 
     <com.asynctaskcoffee.audiorecorder.uikit.RecordButton
+        android:id="@+id/recordButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom|end" />
