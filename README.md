@@ -320,7 +320,7 @@ public VoiceSenderDialog(AudioRecordListener audioRecordListener, IconsObj icons
 ```
 
 
-## Implementation
+## Implementation Gradle
 
 ###### Add it in your root build.gradle at the end of repositories
 
@@ -339,6 +339,31 @@ dependencies {
     implementation 'com.github.AsynctaskCoffee:VoiceRecorder:beta-0.3'
 }
 ```
+
+## Implementation Maven
+
+###### Add the JitPack repository to your build file
+
+```xml
+<repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
+
+###### Add the dependency
+
+```xml
+<dependency>
+	<groupId>com.github.AsynctaskCoffee</groupId>
+	<artifactId>VoiceRecorder</artifactId>
+	<version>beta-0.3</version>
+</dependency>
+```
+
+
 
 ## License
 
