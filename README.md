@@ -20,7 +20,7 @@
 
 ```kotlin
 
-class RecordButton : FrameLayout, AudioRecordListener {
+class DemoActivity : AppCompatActivity(), AudioRecordListener {
 
 private var recorder: Recorder? = null
 
@@ -45,6 +45,7 @@ override fun onTouch(p0: View?, p1: MotionEvent?): Boolean
       }
       return false
 }
+
 }
 ```
 
