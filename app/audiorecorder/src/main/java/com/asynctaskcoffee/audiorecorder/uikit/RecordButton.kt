@@ -1,6 +1,8 @@
 package com.asynctaskcoffee.audiorecorder.uikit
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
@@ -10,24 +12,35 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.widget.Chronometer
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.RelativeLayout
-import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
 import com.asynctaskcoffee.audiorecorder.R
+import com.asynctaskcoffee.audiorecorder.worker.AudioRecordListener
+import com.asynctaskcoffee.audiorecorder.worker.Recorder
 
 
 @SuppressLint("ClickableViewAccessibility,InflateParams")
-class RecordButton : FrameLayout {
+class RecordButton : FrameLayout, AudioRecordListener {
 
     private var imageViewMic: ImageView? = null
     private var countDownCard: FrameLayout? = null
     private var countDownChronometer: Chronometer? = null
     private var animatedLayout: FrameLayout? = null
+    private var recorder: Recorder? = null
+    var audioRecordListener: AudioRecordListener? = null
+
+
+    constructor(context: Context) : super(context) {
+        setupVisualComponents(context)
+    }
+
+    fun setFileName(fileName: String?) {
+        if (recorder != null) recorder!!.setFileName(fileName)
+    }
 
     var marginIn30Dp = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, 30f, resources
@@ -40,10 +53,6 @@ class RecordButton : FrameLayout {
     ).toInt()
 
     var beepEnabled = true
-
-    constructor(context: Context) : super(context) {
-        setupVisualComponents(context)
-    }
 
     constructor(
         context: Context,
@@ -59,10 +68,14 @@ class RecordButton : FrameLayout {
     }
 
     private fun setViews(v: View) {
+        recorder = Recorder(this)
         imageViewMic = v.findViewById(R.id.image_view_mic)
         countDownCard = v.findViewById(R.id.count_down_card)
         countDownChronometer = v.findViewById(R.id.count_down_chronometer)
         animatedLayout = v.findViewById(R.id.animated_layout)
+    }
+
+    fun setRecordListener() {
         animatedLayout?.setOnTouchListener(
             object : OnTouchListener {
                 override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
@@ -91,6 +104,7 @@ class RecordButton : FrameLayout {
                                         countDownCard?.visibility = View.VISIBLE
                                         countDownChronometer?.base = SystemClock.elapsedRealtime()
                                         countDownChronometer?.start()
+                                        recorder?.startRecord()
                                     }
 
                                     override fun onAnimationStart(animation: Animation?) {
@@ -128,6 +142,7 @@ class RecordButton : FrameLayout {
 
                                     override fun onAnimationEnd(animation: Animation?) {
                                         countDownCard?.visibility = View.GONE
+                                        recorder?.stopRecording()
                                         countDownChronometer?.stop()
                                     }
 
@@ -143,5 +158,24 @@ class RecordButton : FrameLayout {
                 }
             }
         )
+
+    }
+
+    private fun reflectAudio(audioUri: String?) {
+        if (audioRecordListener != null)
+            audioRecordListener?.onAudioReady(audioUri)
+    }
+
+    private fun reflectErr(errorMessage: String?) {
+        if (audioRecordListener != null)
+            audioRecordListener?.onRecordFailed(errorMessage)
+    }
+
+    override fun onAudioReady(audioUri: String?) {
+        reflectAudio(audioUri)
+    }
+
+    override fun onRecordFailed(errorMessage: String?) {
+        reflectErr(errorMessage)
     }
 }

@@ -41,7 +41,9 @@ class TestActivity : AppCompatActivity(), AudioRecordListener, MediaPlayListener
     }
 
     fun openDialog(view: View) {
-        VoiceSenderDialog(this).show(supportFragmentManager, "VOICE")
+        val dialog = VoiceSenderDialog(this)
+        dialog.setBeepEnabled(true)
+        dialog.show(supportFragmentManager, "VOICE")
         playRecordButton.visibility = GONE
     }
 

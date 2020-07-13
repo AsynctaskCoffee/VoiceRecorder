@@ -10,7 +10,7 @@ class Recorder(audioRecordListener: AudioRecordListener?) {
     private var recorder: MediaRecorder? = null
     private var audioRecordListener: AudioRecordListener? = null
     private var fileName: String? = null
-    private var localPath = Environment.getExternalStorageDirectory().absolutePath
+    private var localPath = ""
 
     private var isRecording = false
 
@@ -22,6 +22,7 @@ class Recorder(audioRecordListener: AudioRecordListener?) {
         recorder = MediaRecorder()
         recorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
         recorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        localPath = Environment.getExternalStorageDirectory().absolutePath
         localPath += if (fileName == null) {
             "/Recorder_" + UUID.randomUUID().toString() + ".m4a"
         } else {

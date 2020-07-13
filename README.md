@@ -73,6 +73,146 @@ class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
 }
 ```
 
+<img src="previews/preview_btn_1.jpeg" width="250"> <img src="previews/preview_btn_2.jpeg" width="250">  <img src="previews/preview_btn_3.jpeg" width="250">
+
+### Stylish Button Usage
+[**here  :)**](https://github.com/AsynctaskCoffee/VoiceRecorder/blob/master/app/src/main/java/com/asynctaskcoffee/voicerecorder/ButtonUsageActivity.kt)
+```kotlin
+class ButtonUsageActivity : AppCompatActivity(), AudioRecordListener {
+
+    private var permissionsRequired = arrayOf(
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
+    private var permissionToRecordAccepted = false
+    private var permissionCode = 200
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_button_usage)
+        setViews()
+    }
+
+    private fun setViews() {
+        recordButton.audioRecordListener = this
+        if (letsCheckPermissions()) {
+            recordButton.setRecordListener()
+        } else {
+            ActivityCompat.requestPermissions(this, permissionsRequired, permissionCode)
+        }
+    }
+
+    override fun onAudioReady(audioUri: String?) {
+        Toast.makeText(this, audioUri, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onRecordFailed(errorMessage: String?) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun letsCheckPermissions(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == permissionCode) {
+            permissionToRecordAccepted =
+                (grantResults[0] == PackageManager.PERMISSION_GRANTED) && ((grantResults[1] == PackageManager.PERMISSION_GRANTED))
+            if (permissionToRecordAccepted) recordButton.setRecordListener()
+        }
+        if (!permissionToRecordAccepted) Toast.makeText(
+            this,
+            "You have to accept permissions to send voice",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+}
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ButtonUsageActivity">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_circle"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:padding="10dp"
+        android:src="@drawable/ic_gallery_icon"
+        android:tint="@color/white" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:fontFamily="@font/rubik_regular"
+            android:hint="Your Message"
+            android:paddingStart="20dp"
+            android:paddingEnd="15dp"
+            android:textSize="14sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.asynctaskcoffee.audiorecorder.uikit.RecordButton
+        android:id="@+id/recordButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|end" />
+
+</FrameLayout>
+```
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="q" />
+</manifest>
+```
+
 ### Extras
 
 ##### Change Record Path
@@ -81,6 +221,19 @@ class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
 fun setFileName(fileName: String?) {
    this.fileName = fileName
 }
+```
+
+##### Beep before record
+
+```kotlin
+val dialog = VoiceSenderDialog(this)
+dialog.setBeepEnabled(true)
+dialog.show(supportFragmentManager, "VOICE")
+```
+
+```kotlin
+recordButton.audioRecordListener = this
+recordButton.beepEnabled = true
 ```
 
 ##### Easy MPlayer
