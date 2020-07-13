@@ -14,6 +14,41 @@
 ## Features and Usage
 
 
+### Administration Base and Idea
+
+> Start record when press the button and keep recording until release the button.
+
+```kotlin
+
+class RecordButton : FrameLayout, AudioRecordListener {
+
+private var recorder: Recorder? = null
+
+override fun onCreate(savedInstanceState: Bundle?) {
+      super.onCreate(savedInstanceState)
+      setContentView(R.layout.activity_button_usage)
+      recorder = Recorder(this)
+}
+
+override fun onTouch(p0: View?, p1: MotionEvent?): Boolean 
+{
+      when (p1?.action) {
+          MotionEvent.ACTION_DOWN -> {     
+              recorder?.startRecord()                    
+              return true
+          }
+          MotionEvent.ACTION_UP,
+          MotionEvent.ACTION_BUTTON_RELEASE -> {         
+              recorder?.stopRecording()                
+              return true
+          }
+      }
+      return false
+}
+}
+```
+
+
 <img src="previews/1.jpeg" width="250"> <img src="previews/2.jpeg" width="250">  <img src="previews/3.jpeg" width="250">
 
 
@@ -39,7 +74,6 @@ class BottomSheetUsageActivity : AppCompatActivity(), AudioRecordListener {
         TODO("Not yet implemented")
     }
 }
-
 ```
 
 ### Normal Usage
