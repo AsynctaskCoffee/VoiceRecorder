@@ -77,7 +77,7 @@ class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
 }
 ```
 
-<img src="previews/preview_btn_1.jpeg" width="250"> <img src="previews/preview_btn_2.jpeg" width="250">  <img src="previews/preview_btn_3.jpeg" width="250">
+<img src="previews/preview_btn_1.png" width="250"> <img src="previews/preview_btn_2.png" width="250">  <img src="previews/preview_btn_3.png" width="250">
 
 ### Stylish Button Usage
 [**here  :)**](https://github.com/AsynctaskCoffee/VoiceRecorder/blob/master/app/src/main/java/com/asynctaskcoffee/voicerecorder/ButtonUsageActivity.kt)
