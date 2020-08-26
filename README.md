@@ -1,5 +1,7 @@
 # Easy Audio Recorder
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0) ![version](https://img.shields.io/badge/version-0.3-blue)
+
 
 <img src="previews/preview_gif_1.gif" width="250"> <img src="previews/preview_gif_2.gif" width="250">  <img src="previews/preview_gif_3.gif" width="250">
 
