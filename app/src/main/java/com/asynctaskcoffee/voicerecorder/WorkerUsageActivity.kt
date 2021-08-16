@@ -34,4 +34,8 @@ class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
         TODO("Not yet implemented")
     }
 
+    override fun onReadyForRecord() {
+        TODO("Not yet implemented")
+    }
+
 }

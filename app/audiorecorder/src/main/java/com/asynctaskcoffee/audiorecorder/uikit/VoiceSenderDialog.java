@@ -52,7 +52,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     private TextView audioActionInfo;
     private ImageView audioDelete;
     private ImageView audioSend;
-
+    private boolean readyToStop = false;
     private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,};
     private static final int REQUEST_PERMISSIONS = 200;
 
@@ -204,14 +204,26 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         recordButton.setOnClickListener(this);
         recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_play_record));
         recorder.stopRecording();
+        readyToStop = false;
     }
 
 
     private void onRecord(boolean start) {
         if (start) {
+            readyToStop = false;
             startRecording();
         } else {
-            stopRecording();
+            if (readyToStop)
+                stopRecording();
+            else new Handler().postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            stopRecording();
+                            recordDuration.setText("00:01");
+                        }
+                    }, 1000
+            );
         }
     }
 
@@ -346,5 +358,15 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         recordInformation.setText(langObj.listen_record_string);
         recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_play_record));
         mStartPlaying = !mStartPlaying;
+    }
+
+    @Override
+    public void onReadyForRecord() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                readyToStop = true;
+            }
+        }, 700);
     }
 }

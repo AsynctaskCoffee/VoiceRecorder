@@ -24,4 +24,8 @@ class BottomSheetUsageActivity : AppCompatActivity(), AudioRecordListener {
     override fun onRecordFailed(errorMessage: String?) {
         TODO("Not yet implemented")
     }
+
+    override fun onReadyForRecord() {
+        //To check recorder is ready
+    }
 }

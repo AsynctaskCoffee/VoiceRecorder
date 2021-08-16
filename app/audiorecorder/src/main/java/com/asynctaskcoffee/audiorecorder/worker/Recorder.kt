@@ -20,30 +20,31 @@ class Recorder(audioRecordListener: AudioRecordListener?) {
 
     fun startRecord() {
         recorder = MediaRecorder()
-        recorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
-        recorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+        recorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         localPath = Environment.getExternalStorageDirectory().absolutePath
         localPath += if (fileName == null) {
             "/Recorder_" + UUID.randomUUID().toString() + ".m4a"
         } else {
             fileName
         }
-        recorder!!.setOutputFile(localPath)
-        recorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        recorder?.setOutputFile(localPath)
+        recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         try {
-            recorder!!.prepare()
-        } catch (e: IOException) {
+            recorder?.prepare()
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
             reflectError(e.toString())
             return
         }
-        recorder!!.start()
+        recorder?.start()
         isRecording = true
+        audioRecordListener?.onReadyForRecord()
     }
 
     fun reset() {
         if (recorder != null) {
-            recorder!!.release()
+            recorder?.release()
             recorder = null
             isRecording = false
         }
@@ -52,8 +53,8 @@ class Recorder(audioRecordListener: AudioRecordListener?) {
     fun stopRecording() {
         try {
             Thread.sleep(150)
-            recorder!!.stop()
-            recorder!!.release()
+            recorder?.stop()
+            recorder?.release()
             recorder = null
             reflectRecord(localPath)
         } catch (e: Exception) {

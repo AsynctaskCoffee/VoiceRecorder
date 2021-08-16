@@ -178,4 +178,8 @@ class RecordButton : FrameLayout, AudioRecordListener {
     override fun onRecordFailed(errorMessage: String?) {
         reflectErr(errorMessage)
     }
+
+    override fun onReadyForRecord() {
+
+    }
 }

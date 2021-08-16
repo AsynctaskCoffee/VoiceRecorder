@@ -1,5 +1,6 @@
 package com.asynctaskcoffee.voicerecorder
 
+import android.Manifest
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.asynctaskcoffee.audiorecorder.uikit.VoiceSenderDialog
 import com.asynctaskcoffee.audiorecorder.worker.AudioRecordListener
 import com.asynctaskcoffee.audiorecorder.worker.MediaPlayListener
@@ -21,6 +23,13 @@ class TestActivity : AppCompatActivity(), AudioRecordListener, MediaPlayListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
+
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO),
+            1
+        )
+
     }
 
     fun startRecord(view: View) {
@@ -50,6 +59,10 @@ class TestActivity : AppCompatActivity(), AudioRecordListener, MediaPlayListener
     override fun onRecordFailed(errorMessage: String?) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         playRecordButton.visibility = GONE
+    }
+
+    override fun onReadyForRecord() {
+        //READY FOR RECORD DO NOT CALL STOP RECORD BEFORE THIS CALLBACK
     }
 
     override fun onAudioReady(audioUri: String?) {

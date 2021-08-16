@@ -45,6 +45,10 @@ class ButtonUsageActivity : AppCompatActivity(), AudioRecordListener {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
+    override fun onReadyForRecord() {
+        Toast.makeText(this, "READY", Toast.LENGTH_SHORT).show()
+    }
+
     private fun letsCheckPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
