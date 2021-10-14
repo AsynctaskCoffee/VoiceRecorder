@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -69,6 +70,11 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_bottom_voice_record, container, false);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            permissions = new String[]{Manifest.permission.RECORD_AUDIO};
+        } else {
+            permissions = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,};
+        }
         ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_PERMISSIONS);
         setViews(v);
         if (letsCheckPermissions())
@@ -99,7 +105,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
 
     @SuppressLint("ClickableViewAccessibility")
     void setListeners() {
-        recorder = new Recorder(this,requireContext());
+        recorder = new Recorder(this, requireContext());
         player = new Player(this);
         closeRecordPanel.setOnClickListener(this);
         audioDelete.setOnClickListener(this);
@@ -286,7 +292,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         if (recorder != null) {
             recorder.reset();
             recorder = null;
-            recorder = new Recorder(this,requireContext());
+            recorder = new Recorder(this, requireContext());
         }
 
         if (player != null) {
@@ -331,16 +337,24 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
     }
 
     private boolean letsCheckPermissions() {
-        return ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS) {
-            permissionToRecordAccepted = (grantResults[0] == PackageManager.PERMISSION_GRANTED) && ((grantResults[1] == PackageManager.PERMISSION_GRANTED));
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                permissionToRecordAccepted = (grantResults[0] == PackageManager.PERMISSION_GRANTED);
+            } else {
+                permissionToRecordAccepted = (grantResults[0] == PackageManager.PERMISSION_GRANTED) && ((grantResults[1] == PackageManager.PERMISSION_GRANTED));
+            }
             setListeners();
         }
         if (!permissionToRecordAccepted) dismiss();
