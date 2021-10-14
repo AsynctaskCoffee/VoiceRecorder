@@ -32,10 +32,11 @@ class RecordButton : FrameLayout, AudioRecordListener {
     private var animatedLayout: FrameLayout? = null
     private var recorder: Recorder? = null
     var audioRecordListener: AudioRecordListener? = null
-
+    private lateinit var mContext:Context
 
     constructor(context: Context) : super(context) {
         setupVisualComponents(context)
+        this.mContext = context
     }
 
     fun setFileName(fileName: String?) {
@@ -68,7 +69,7 @@ class RecordButton : FrameLayout, AudioRecordListener {
     }
 
     private fun setViews(v: View) {
-        recorder = Recorder(this)
+        recorder = Recorder(this,mContext)
         imageViewMic = v.findViewById(R.id.image_view_mic)
         countDownCard = v.findViewById(R.id.count_down_card)
         countDownChronometer = v.findViewById(R.id.count_down_chronometer)
