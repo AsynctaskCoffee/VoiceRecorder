@@ -33,7 +33,7 @@ class TestActivity : AppCompatActivity(), AudioRecordListener, MediaPlayListener
     }
 
     fun startRecord(view: View) {
-        recorder = Recorder(this)
+        recorder = Recorder(this,this)
         startRecordButton.isEnabled = false
         startRecordButton.text = getString(R.string.started_record)
         recorder.startRecord()

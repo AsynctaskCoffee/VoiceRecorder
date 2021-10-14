@@ -15,7 +15,7 @@ class WorkerUsageActivity : AppCompatActivity(), AudioRecordListener {
     }
 
     fun initRecorder() {
-        recorder = Recorder(this)
+        recorder = Recorder(this,this)
     }
 
     fun startRecord() {

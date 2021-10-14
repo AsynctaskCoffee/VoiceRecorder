@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -100,7 +99,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
 
     @SuppressLint("ClickableViewAccessibility")
     void setListeners() {
-        recorder = new Recorder(this);
+        recorder = new Recorder(this,requireContext());
         player = new Player(this);
         closeRecordPanel.setOnClickListener(this);
         audioDelete.setOnClickListener(this);
@@ -196,15 +195,17 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
 
     @SuppressLint("ClickableViewAccessibility")
     private void stopRecording() {
-        audioDelete.setVisibility(View.VISIBLE);
-        audioSend.setVisibility(View.VISIBLE);
-        audioActionInfo.setText(langObj.listen_record_string);
-        recordDuration.stop();
-        recordButton.setOnTouchListener(null);
-        recordButton.setOnClickListener(this);
-        recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_play_record));
-        recorder.stopRecording();
-        readyToStop = false;
+        if (getActivity() != null) {
+            audioDelete.setVisibility(View.VISIBLE);
+            audioSend.setVisibility(View.VISIBLE);
+            audioActionInfo.setText(langObj.listen_record_string);
+            recordDuration.stop();
+            recordButton.setOnTouchListener(null);
+            recordButton.setOnClickListener(this);
+            recordButton.setImageDrawable(requireActivity().getDrawable(iconsObj.ic_play_record));
+            recorder.stopRecording();
+            readyToStop = false;
+        }
     }
 
 
@@ -285,7 +286,7 @@ public class VoiceSenderDialog extends BottomSheetDialogFragment implements View
         if (recorder != null) {
             recorder.reset();
             recorder = null;
-            recorder = new Recorder(this);
+            recorder = new Recorder(this,requireContext());
         }
 
         if (player != null) {

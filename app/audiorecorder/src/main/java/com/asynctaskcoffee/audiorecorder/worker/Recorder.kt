@@ -1,16 +1,16 @@
 package com.asynctaskcoffee.audiorecorder.worker
 
+import android.content.Context
 import android.media.MediaRecorder
-import android.os.Environment
-import java.io.IOException
 import java.util.*
 
-class Recorder(audioRecordListener: AudioRecordListener?) {
+class Recorder(audioRecordListener: AudioRecordListener?, private var context: Context?) {
 
     private var recorder: MediaRecorder? = null
     private var audioRecordListener: AudioRecordListener? = null
     private var fileName: String? = null
     private var localPath = ""
+
 
     private var isRecording = false
 
@@ -18,11 +18,19 @@ class Recorder(audioRecordListener: AudioRecordListener?) {
         this.fileName = fileName
     }
 
+    fun setContext(context: Context) {
+        this.context = context
+    }
+
     fun startRecord() {
+        if (context == null) {
+            throw IllegalStateException("Context cannot be null")
+        }
+        val destPath: String = context?.getExternalFilesDir(null)?.absolutePath ?: ""
         recorder = MediaRecorder()
         recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
         recorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        localPath = Environment.getExternalStorageDirectory().absolutePath
+        localPath = destPath
         localPath += if (fileName == null) {
             "/Recorder_" + UUID.randomUUID().toString() + ".m4a"
         } else {
