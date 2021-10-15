@@ -401,6 +401,10 @@ dependencies {
 ```
 
 
+## Credits
+
+@vedraj360
+
 
 ## License
 
