@@ -373,7 +373,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.AsynctaskCoffee:VoiceRecorder:beta-0.4'
+    implementation 'com.github.AsynctaskCoffee:VoiceRecorder:beta-0.5'
 }
 ```
 
@@ -396,7 +396,7 @@ dependencies {
 <dependency>
 	<groupId>com.github.AsynctaskCoffee</groupId>
 	<artifactId>VoiceRecorder</artifactId>
-	<version>beta-0.4</version>
+	<version>beta-0.5</version>
 </dependency>
 ```
 
